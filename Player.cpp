@@ -27,6 +27,8 @@ void Player::initVariables() {
     this->hp= this->hpMax;
     this->attackCoolDownMax=10.f;
     this->attackCoolDown= this->attackCoolDownMax;
+    this->enemyCollisionCoolDownMax=10.f;
+    this->enemyCollisionCoolDown= this->enemyCollisionCoolDownMax;
 }
 
 void Player::initPlayerTexture() {
@@ -56,6 +58,7 @@ void Player::initPlayerSprite() {
 
 void Player::PlayerUpdate() {
     this->updateAttack();
+    this->updateCollisionCooldown();
 }
 void Player::updateAttack() {
     if(this->attackCoolDown < this->attackCoolDownMax)
@@ -63,7 +66,12 @@ void Player::updateAttack() {
         this->attackCoolDown += 0.5f;
     }
 }
-
+void Player::updateCollisionCooldown() {
+    if(this->enemyCollisionCoolDown < this->enemyCollisionCoolDownMax)
+    {
+        this->enemyCollisionCoolDown += 0.5f;
+    }
+}
 //<---------------------- RENDER FUNCTIONS ---------------------->
 /* Render the newly updated values onto the window to display for the current frame */
 
@@ -133,6 +141,17 @@ const bool Player::canAttack() {
     }
     return false;
 }
+
+const bool Player::canCollide() {
+    if(this->enemyCollisionCoolDown >= this->enemyCollisionCoolDownMax)
+    {
+        this->enemyCollisionCoolDown=0.f;
+        return true;
+    }
+    return false;
+}
+
+
 
 
 

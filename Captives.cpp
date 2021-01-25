@@ -31,6 +31,12 @@ void Captives::initVariables(int Id)
 void Captives::setPosition(sf::Vector2f pos) {
     this->captiveSprite.setPosition(pos);
 }
+sf::FloatRect Captives::getBounds() {
+    return this->captiveSprite.getGlobalBounds();
+}
+void Captives::setScale(float x, float y){
+    this->captiveSprite.setScale(x,y);
+}
 
 //<----------------- UPDATE FUNCTIONS ----------------->
 
@@ -38,4 +44,5 @@ void Captives::setPosition(sf::Vector2f pos) {
 void Captives::renderCaptive(sf::RenderWindow *target) {
     target->draw(this->captiveSprite);
 }
+
 

@@ -5,8 +5,8 @@
 #include "Sticks.h"
 
 //<---------- CONSTRUCTORS AND DESTRUCTORS ---------->
-Sticks::Sticks(float x, float y) {
-    this->initSprite(x,y);
+Sticks::Sticks(float x, float y, float scaleX, float scaleY) {
+    this->initSprite(x,y,scaleX,scaleY);
 }
 
 Sticks::~Sticks() {
@@ -15,10 +15,10 @@ Sticks::~Sticks() {
 
 //<------------ INITAILIZING FUNCTIONS ------------>
 
-void Sticks::initSprite(float x, float y) {
+void Sticks::initSprite(float x, float y,float scaleX, float scaleY) {
     this->stickTexture.loadFromFile("Textures/stickSprite.png");
     this->stickSprite.setTexture(this->stickTexture);
-    this->stickSprite.setScale(0.18f,0.2f);
+    this->stickSprite.setScale(scaleX,scaleY);
     this->stickSprite.setPosition(x,y);
 
     this->Open=false;

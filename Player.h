@@ -29,6 +29,10 @@ private:
     float attackCoolDown;
     float attackCoolDownMax;
 
+    //captive settings
+    float enemyCollisionCoolDown;
+    float enemyCollisionCoolDownMax;
+
     //health of the player
     int hp;
     int hpMax;
@@ -47,6 +51,7 @@ public:
     //update functions
     void PlayerUpdate();
     void updateAttack();
+    void updateCollisionCooldown();
 
     //render function
     void PlayerRender(sf::RenderTarget& target);
@@ -67,6 +72,7 @@ public:
     //Other function
     void move();
     const bool canAttack();
+    const bool canCollide();
 
 };
 

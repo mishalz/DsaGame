@@ -27,7 +27,7 @@ private:
     Player* mainPlayer;
     std::string PlayerDirection;
 
-    //<---- data structures ---->
+    //<--------- data structures --------->
     //enemy object
     std::vector<Enemy*> enemies;
 
@@ -42,10 +42,15 @@ private:
 
     //captive objects
     std::vector<Captives*> captives;
+    std::vector<Captives*> savedCaptives;
 
     //stack to store the captives when captured
-    Stack *CaptiveStack;
-    //<---- End data structures ---->
+    Stack* CaptiveStack;
+
+    //<------- End data structures ------->
+
+    //number of captives captured
+    int NoOfCaptivesCaptured;
 
     //background sprite and texture
     sf::Sprite backgroundSprite;
@@ -104,6 +109,7 @@ public:
     void updateEnemyCollision();
     void updateEnemyBulletCollision();
     void updateStickPlayerCollision();
+    void updateCaptivePlayerCollision();
 
     //render functions
     void render();
@@ -116,6 +122,7 @@ public:
     void renderScoreText(sf::RenderWindow* target);
     void renderBullets(sf::RenderWindow* target);
     void renderEnemies(sf::RenderWindow* target);
+    void renderSavedCaptives(sf::RenderWindow* target);
 
     //setters and getters
     sf::RenderWindow* getWindow();

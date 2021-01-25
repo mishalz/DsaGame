@@ -20,12 +20,12 @@ public:
         this->size=siz;
     }
     //method to push the element
-    void Push(Captives element) {
+    void Push(Captives* element) {
 
         //the process to only work if the stack is not already full
         if (!isFull()) {
 
-            stackVector.push_back(&element);
+            stackVector.push_back(element);
         }
         else {
             std::cout << "The stack is full" << std::endl;
@@ -60,6 +60,18 @@ public:
     //to check if the stack is full
     bool isFull() {
         return stackVector.size() == size;
+    }
+
+    //return the size of the stack;
+    int getSize()
+    {
+        return stackVector.size();
+    }
+
+    //return the last element of the stack without removing it
+    Captives* getLast()
+    {
+        return this->stackVector.back();
     }
 
     //to release the memory allocated by stack

@@ -19,11 +19,11 @@ private:
 
 public:
     //constructors and destructors
-    Sticks(float x, float y);
+    Sticks(float x, float y,float scaleX, float scaleY);
     virtual ~Sticks();
 
     //initialing functions
-    void initSprite(float x, float y);
+    void initSprite(float x, float y,float scaleX, float scaleY);
 
     //setters and getters
     sf::FloatRect getBounds();

@@ -7,9 +7,9 @@
 Game::Game() {
 
     //calling all init functions
+
     this->initWindow();
     this->initVariables();
-
     //background inits
     this->initBackgroundTexture();
     this->initBackgroundSprite();
@@ -75,7 +75,7 @@ void Game::initWindow() {
 void Game::initCaptives() {
 
     this->captives.push_back(new Captives(sf::Vector2f(1200.f,50.f),1));
-    this->captives.push_back(new Captives(sf::Vector2f(1230.f,70.f),2));
+    this->captives.push_back(new Captives(sf::Vector2f(1200.f,50.f),2));
 
 }
 void Game::initHealthBar()
@@ -91,7 +91,8 @@ void Game::initHealthBar()
 }
 void Game::initSticks()
 {
-    this->sticks.push_back(new Sticks(1265.f,170.f));
+    this->sticks.push_back(new Sticks(1265.f,170.f,0.166f,0.2f));
+    this->sticks.push_back(new Sticks(490.f,500.f,0.18f,0.2f));
 
 }
 void Game::initPlayer() {
@@ -100,7 +101,8 @@ void Game::initPlayer() {
 }
 
 void Game::initEnemy() {
-    this->enemies.push_back(new Enemy(sf::Vector2f(100.f,65.f),sf::Vector2f(500.f,65.f),1.f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(100.f,65.f),
+                                      sf::Vector2f(500.f,65.f),1.f));
 }
 void Game::initText()
 {
@@ -126,6 +128,13 @@ void Game::initStack()
 {
     this->CaptiveStack=new Stack(this->captives.size());
 };
+void Game::initBackgroundSprite() {
+    this->backgroundSprite.setTexture(this->backgroundTexture);
+
+}
+void Game::initBackgroundTexture() {
+    this->backgroundTexture.loadFromFile("Textures/backgroundSprite.png");
+}
 void Game::initBlocks() {
     //upper side border of blocks
     float x=0.f;float y=0.f;
@@ -242,13 +251,6 @@ void Game::initBlocks() {
     blocksArray.push_back(new Blocks(140,585,0.f));
 
 }
-void Game::initBackgroundSprite() {
-    this->backgroundSprite.setTexture(this->backgroundTexture);
-
-}
-void Game::initBackgroundTexture() {
-    this->backgroundTexture.loadFromFile("Textures/backgroundSprite.png");
-}
 
 //<---------------------- UPDATE FUNCTIONS ---------------------->
 /* updating values on the basis of events from the last frame */
@@ -263,6 +265,7 @@ void Game::update() {
     this->updateEnemyBulletCollision();
     this->updateEnemy();
     this->updateStickPlayerCollision();
+    this->updateCaptivePlayerCollision();
     this->updateHealthBar();
     this->updateScoreText();
 }
@@ -410,8 +413,78 @@ void Game::updateBlockCollision() {
 void Game::updateEnemyCollision()
 {
     for(auto &enemy : this->enemies) {
-        if (enemy->getBounds().intersects(this->mainPlayer->getGlobalBounds())) {
-            this->mainPlayer->looseHp(1);
+
+        sf::FloatRect playerBounds = this->mainPlayer->getGlobalBounds();
+        sf::FloatRect enemyBounds = enemy->getBounds();
+
+        if (enemyBounds.intersects(playerBounds)) {
+
+            if(this->savedCaptives.size()==0)
+            {
+                this->mainPlayer->looseHp(1);
+            }
+            else if(this->mainPlayer->canCollide()){
+                this->captives.push_back(this->savedCaptives.back());
+                this->savedCaptives.back()->setScale(0.1f,0.1f);
+                this->savedCaptives.back()->setPosition(sf::Vector2f(1200.f,50.f));
+                this->savedCaptives.pop_back();
+            }
+
+            this->nextPosition = playerBounds;
+            playerBounds.left += this->mainPlayer->getVelocity().x;
+            playerBounds.top += this->mainPlayer->getVelocity().y;
+
+            //bottom collision
+            if(playerBounds.top < enemyBounds.top
+               && playerBounds.top + playerBounds.height < enemyBounds.top +enemyBounds.height
+               && playerBounds.left < enemyBounds.left + enemyBounds.width
+               && playerBounds.left + playerBounds.width > enemyBounds.left)
+            {
+                this->mainPlayer->setVelocity(sf::Vector2f(
+                        this->mainPlayer->getVelocity().x,
+                        0.f));
+
+                this->mainPlayer->setPosition(playerBounds.left, enemyBounds.top - playerBounds.height);
+            }
+
+                //top collision
+            else if(playerBounds.top > enemyBounds.top
+                    && playerBounds.top + playerBounds.height > enemyBounds.top +enemyBounds.height
+                    && playerBounds.left < enemyBounds.left + enemyBounds.width
+                    && playerBounds.left + playerBounds.width > enemyBounds.left)
+            {
+                this->mainPlayer->setVelocity(sf::Vector2f(
+                        this->mainPlayer->getVelocity().x,
+                        0.f));
+
+                this->mainPlayer->setPosition(playerBounds.left, enemyBounds.top + enemyBounds.height);
+            }
+
+            //right collision
+            if(playerBounds.left < enemyBounds.left
+               && playerBounds.left + playerBounds.width < enemyBounds.left +enemyBounds.width
+               && playerBounds.top < enemyBounds.top + enemyBounds.height
+               && playerBounds.top + playerBounds.height > enemyBounds.top)
+            {
+                this->mainPlayer->setVelocity(sf::Vector2f(
+                        0.f,
+                        this->mainPlayer->getVelocity().y));
+
+                this->mainPlayer->setPosition(enemyBounds.left - playerBounds.width, playerBounds.top);
+            }
+                //left collision
+            else if(playerBounds.left > enemyBounds.left
+                    && playerBounds.left + playerBounds.width > enemyBounds.left +enemyBounds.width
+                    && playerBounds.top < enemyBounds.top + enemyBounds.height
+                    && playerBounds.top + playerBounds.height > enemyBounds.top)
+            {
+                this->mainPlayer->setVelocity(sf::Vector2f(
+                        0.f,
+                        this->mainPlayer->getVelocity().y));
+
+                this->mainPlayer->setPosition(enemyBounds.left + enemyBounds.width, playerBounds.top);
+            }
+
         }
     }
 }
@@ -554,7 +627,24 @@ void Game::updateStickPlayerCollision() {
         }
     }
 }
+void Game::updateCaptivePlayerCollision()
+{
+    for(size_t k=0; k <this->captives.size();k++)
+    {
+        if(this->captives[k]->getBounds().intersects(this->mainPlayer->getGlobalBounds()))
+        {
+            //since it has been saved adding it to the stack
+            this->CaptiveStack->Push(this->captives[k]);
 
+            this->savedCaptives.push_back(this->captives[k]);
+
+            //then deleting that from the captives vector
+            this->captives.erase(this->captives.begin()+k);
+
+        }
+    }
+
+}
 //<----------------------------------- RENDER FUNCTIONS ----------------------------------->
 /* Render the newly updated values onto the window to display for the current frame */
 
@@ -571,6 +661,7 @@ void Game::render() {
     this->renderBullets(this->gameWindow);
     this->renderEnemies(this->gameWindow);
     this->renderCaptives(this->gameWindow);
+    this->renderSavedCaptives(this->gameWindow);
     this->renderHealthBar(this->gameWindow);
     this->renderScoreText(this->gameWindow);
 
@@ -639,6 +730,18 @@ void Game::renderScoreText(sf::RenderWindow *target)
 {
     target->draw(this->ScoreText);
 }
+void Game::renderSavedCaptives(sf::RenderWindow *target) {
+
+    int counter=0;
+    for(auto &savedCaptive : this->savedCaptives)
+    {
+        savedCaptive->setPosition(sf::Vector2f(700.f + (40.f*counter),0.f));
+        savedCaptive->setScale(0.09f,0.09f);
+        savedCaptive->renderCaptive(target);
+        counter++;
+    }
+
+}
 //<---------------------- GETTERS AND SETTERS ---------------------->
 
 sf::RenderWindow *Game::getWindow() {
@@ -662,9 +765,8 @@ void Game::runGame() {
         }
 
         this->render();
-
-
 }
+
 
 
 
