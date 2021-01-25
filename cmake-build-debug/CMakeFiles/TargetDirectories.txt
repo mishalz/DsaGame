@@ -1,0 +1,3 @@
+/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir
