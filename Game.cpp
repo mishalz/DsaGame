@@ -287,15 +287,29 @@ void Game::updateBullets() {
     for(auto *bullet:this->bullets)
     {
         bullet->update();
+        bool bullet_deleted=false;
 
         //bullet going out of the screen top
-        if(bullet->getBounds().top + bullet->getBounds().height <0.f)
+        if(bullet->getBounds().top + bullet->getBounds().height <0.f && !bullet_deleted)
         {
             //Delete bullet
             delete this->bullets.at(counter);
             this->bullets.erase(this->bullets.begin()+counter);
             --counter;
 
+        }
+
+        //bullet striking any block
+        for(auto *block : this->blocksArray)
+        {
+            if(bullet->getBounds().intersects(block->getGlobalBounds()) && !bullet_deleted)
+            {
+                //Delete bullet
+                delete this->bullets.at(counter);
+                this->bullets.erase(this->bullets.begin()+counter);
+                --counter;
+                bullet_deleted=true;
+            }
         }
 
         ++counter;
