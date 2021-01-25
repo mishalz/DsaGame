@@ -116,6 +116,9 @@
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Player.h">
 			<Option target="DsaGame"/>
 		</Unit>
+		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Stack.h">
+			<Option target="DsaGame"/>
+		</Unit>
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Sticks.cpp">
 			<Option target="DsaGame"/>
 		</Unit>

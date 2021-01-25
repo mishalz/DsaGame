@@ -43,6 +43,8 @@ Sticks.h
 /Users/mishalzulfiqar/CLionProjects/Captive/Sticks.h
 Bullets.h
 /Users/mishalzulfiqar/CLionProjects/Captive/Bullets.h
+Stack.h
+/Users/mishalzulfiqar/CLionProjects/Captive/Stack.h
 sstream
 -
 
@@ -57,6 +59,12 @@ SFML/Window.hpp
 -
 iostream
 -
+
+/Users/mishalzulfiqar/CLionProjects/Captive/Stack.h
+iostream
+-
+Captives.h
+/Users/mishalzulfiqar/CLionProjects/Captive/Captives.h
 
 /Users/mishalzulfiqar/CLionProjects/Captive/Sticks.h
 SFML/Graphics.hpp

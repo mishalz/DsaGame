@@ -15,13 +15,18 @@ private:
     sf::Sprite captiveSprite;
     sf::Texture captiveTexture;
 
+    //captive id
+    int captiveId;
+
 public:
     //constructors and destructors
+    Captives(sf::Vector2f pos,int Id);
     Captives();
     virtual ~Captives();
 
     //initializing functions
-    void initCaptiveSprite();
+    void initCaptiveSprite(sf::Vector2f pos);
+    void initVariables(int Id);
 
     //setters and getters
     void setPosition(sf::Vector2f pos);

@@ -9,6 +9,7 @@
 #include "Captives.h"
 #include "Sticks.h"
 #include "Bullets.h"
+#include "Stack.h"
 #include <sstream>
 
 #ifndef DSAGAME_GAME_H
@@ -26,11 +27,9 @@ private:
     Player* mainPlayer;
     std::string PlayerDirection;
 
+    //<---- data structures ---->
     //enemy object
     std::vector<Enemy*> enemies;
-
-    //captive objects
-    Captives* captive;
 
     //stick objects
     std::vector<Sticks*> sticks;
@@ -40,6 +39,13 @@ private:
 
     //array containing all the blocks;
     std::vector<Blocks*> blocksArray;
+
+    //captive objects
+    std::vector<Captives*> captives;
+
+    //stack to store the captives when captured
+    Stack *CaptiveStack;
+    //<---- End data structures ---->
 
     //background sprite and texture
     sf::Sprite backgroundSprite;
@@ -77,6 +83,7 @@ public:
     void initEnemy();
     void initCaptives();
     void initSticks();
+    void initStack();
     void initBlocks();
     void initBackgroundSprite();
     void initBackgroundTexture();
@@ -101,6 +108,7 @@ public:
     //render functions
     void render();
     void renderSticks(sf::RenderWindow *target);
+    void renderCaptives(sf::RenderWindow *target);
     void renderPlayerMovementDirection( std::string texture1);
     void renderBlocks(sf::RenderTarget* target);
     void renderBackgroundSprite(sf::RenderTarget* target);

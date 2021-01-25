@@ -13,14 +13,13 @@ Game::Game() {
     //background inits
     this->initBackgroundTexture();
     this->initBackgroundSprite();
-
     //initializing the main player attributes
     this->initPlayer();
     this->initEnemy();
     this->initCaptives();
-
     //initializing the blocks array
     this->initBlocks();
+    this->initStack();
     this->initSticks();
     this->initHealthBar();
     this->initText();
@@ -48,6 +47,12 @@ Game::~Game() {
     {
         delete i;
     }
+
+    //deleting captives
+    for(auto* i: this->captives)
+    {
+        delete i;
+    }
 }
 
 //<---------------------- INIT FUNCTIONS ---------------------->
@@ -69,8 +74,8 @@ void Game::initWindow() {
 }
 void Game::initCaptives() {
 
-    this->captive=new Captives();
-    this->captive->setPosition(sf::Vector2f(1200.f,50.f));
+    this->captives.push_back(new Captives(sf::Vector2f(1200.f,50.f),1));
+    this->captives.push_back(new Captives(sf::Vector2f(1230.f,70.f),2));
 
 }
 void Game::initHealthBar()
@@ -111,13 +116,16 @@ void Game::initText()
     this->ScoreText.setFillColor(sf::Color::White);
     this->ScoreText.setString("None");
     this->ScoreText.setPosition(50.f,0.f);
-
     this->HealthText.setFont(this->ScoreFont);
     this->HealthText.setCharacterSize(35);
     this->HealthText.setFillColor(sf::Color::White);
     this->HealthText.setString("Health: ");
     this->HealthText.setPosition(300.f,0.f);
 }
+void Game::initStack()
+{
+    this->CaptiveStack=new Stack(this->captives.size());
+};
 void Game::initBlocks() {
     //upper side border of blocks
     float x=0.f;float y=0.f;
@@ -548,7 +556,7 @@ void Game::render() {
     this->mainPlayer->PlayerRender(*this->gameWindow);
     this->renderBullets(this->gameWindow);
     this->renderEnemies(this->gameWindow);
-    this->captive->renderCaptive(this->gameWindow);
+    this->renderCaptives(this->gameWindow);
     this->renderHealthBar(this->gameWindow);
     this->renderScoreText(this->gameWindow);
 
@@ -556,6 +564,11 @@ void Game::render() {
 
     //displaying the window
     this->gameWindow->display();
+}
+void Game::renderCaptives(sf::RenderWindow *target){
+    for(auto &captive: this->captives){
+        captive->renderCaptive(this->gameWindow);
+    }
 }
 void Game::renderSticks(sf::RenderWindow *target)
 {

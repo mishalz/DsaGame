@@ -317,6 +317,7 @@ CMakeFiles/DsaGame.dir/Game.cpp.o
  /Users/mishalzulfiqar/CLionProjects/Captive/Game.cpp
  /Users/mishalzulfiqar/CLionProjects/Captive/Game.h
  /Users/mishalzulfiqar/CLionProjects/Captive/Player.h
+ /Users/mishalzulfiqar/CLionProjects/Captive/Stack.h
  /Users/mishalzulfiqar/CLionProjects/Captive/Sticks.h
  /usr/local/include/SFML/Audio.hpp
  /usr/local/include/SFML/Audio/AlResource.hpp
@@ -587,6 +588,7 @@ CMakeFiles/DsaGame.dir/main.cpp.o
  /Users/mishalzulfiqar/CLionProjects/Captive/Enemy.h
  /Users/mishalzulfiqar/CLionProjects/Captive/Game.h
  /Users/mishalzulfiqar/CLionProjects/Captive/Player.h
+ /Users/mishalzulfiqar/CLionProjects/Captive/Stack.h
  /Users/mishalzulfiqar/CLionProjects/Captive/Sticks.h
  /Users/mishalzulfiqar/CLionProjects/Captive/main.cpp
  /usr/local/include/SFML/Audio.hpp

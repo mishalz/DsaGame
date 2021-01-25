@@ -5,22 +5,28 @@
 #include "Captives.h"
 
 //<----------- CONSTRUCTORS AND DESTRUCTORS ----------->
-Captives::Captives() {
+Captives::Captives(sf::Vector2f pos,int Id) {
 
-    this->initCaptiveSprite();
+    this->initVariables(Id);
+    this->initCaptiveSprite(pos);
+
 }
-
+Captives::Captives() {}
 Captives::~Captives() {
 
 }
 
 //<-------------- INITIALIZING FUNCTIONS -------------->
-void Captives::initCaptiveSprite() {
+void Captives::initCaptiveSprite(sf::Vector2f pos) {
     this->captiveTexture.loadFromFile("Textures/prisonersSprite.png");
     this->captiveSprite.setTexture(this->captiveTexture);
     this->captiveSprite.setScale(0.1f,0.1f);
+    this->captiveSprite.setPosition(pos);
 }
-
+void Captives::initVariables(int Id)
+{
+    this->captiveId=Id;
+}
 //<--------------- SETTERS AND GETTERS ---------------->
 void Captives::setPosition(sf::Vector2f pos) {
     this->captiveSprite.setPosition(pos);

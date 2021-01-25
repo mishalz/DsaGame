@@ -316,6 +316,7 @@ CMakeFiles/DsaGame.dir/Game.cpp.o: ../Enemy.h
 CMakeFiles/DsaGame.dir/Game.cpp.o: ../Game.cpp
 CMakeFiles/DsaGame.dir/Game.cpp.o: ../Game.h
 CMakeFiles/DsaGame.dir/Game.cpp.o: ../Player.h
+CMakeFiles/DsaGame.dir/Game.cpp.o: ../Stack.h
 CMakeFiles/DsaGame.dir/Game.cpp.o: ../Sticks.h
 CMakeFiles/DsaGame.dir/Game.cpp.o: /usr/local/include/SFML/Audio.hpp
 CMakeFiles/DsaGame.dir/Game.cpp.o: /usr/local/include/SFML/Audio/AlResource.hpp
@@ -586,6 +587,7 @@ CMakeFiles/DsaGame.dir/main.cpp.o: ../Captives.h
 CMakeFiles/DsaGame.dir/main.cpp.o: ../Enemy.h
 CMakeFiles/DsaGame.dir/main.cpp.o: ../Game.h
 CMakeFiles/DsaGame.dir/main.cpp.o: ../Player.h
+CMakeFiles/DsaGame.dir/main.cpp.o: ../Stack.h
 CMakeFiles/DsaGame.dir/main.cpp.o: ../Sticks.h
 CMakeFiles/DsaGame.dir/main.cpp.o: ../main.cpp
 CMakeFiles/DsaGame.dir/main.cpp.o: /usr/local/include/SFML/Audio.hpp
