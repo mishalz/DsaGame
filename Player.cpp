@@ -25,7 +25,7 @@ void Player::initVariables() {
     this->movementSpeed=10.f;
     this->hpMax=100;
     this->hp= this->hpMax;
-    this->attackCoolDownMax=10.f;
+    this->attackCoolDownMax=05.f;
     this->attackCoolDown= this->attackCoolDownMax;
     this->enemyCollisionCoolDownMax=10.f;
     this->enemyCollisionCoolDown= this->enemyCollisionCoolDownMax;
@@ -46,10 +46,10 @@ void Player::initPlayerSprite() {
     this->PlayerSprite.setTexture(this->PlayerTexture);
 
     //set the position of the player
-    this->PlayerSprite.setPosition(0.f,25.f); //on the upper left corner
+    this->PlayerSprite.setPosition(0.f,35.f); //on the upper left corner
 
     //set scale
-    this->PlayerSprite.setScale(0.6f,0.55f);
+    this->PlayerSprite.setScale(0.5f,0.45f);
 
 }
 
@@ -81,7 +81,6 @@ void Player::PlayerRender(sf::RenderTarget& target) {
     target.draw(this->PlayerSprite);
 
 }
-
 //<---------------------- GETTERS AND SETTERS ---------------------->
 
 /* setting the sprite */
@@ -125,6 +124,14 @@ void Player::looseHp(int value) {
     {
         this->hp=0;
     }
+}
+float Player::getTimetaken()
+{
+    return this->timeTaken;
+}
+void Player::setTimetaken(float time)
+{
+    this->timeTaken=time;
 }
 
 //<---------------------- OTHER FUNCTIONS ---------------------->

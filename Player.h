@@ -8,6 +8,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <time.h>
 
 #ifndef DSAGAME_PLAYER_H
 #define DSAGAME_PLAYER_H
@@ -24,6 +25,9 @@ private:
     //speed of movement of the player
     float movementSpeed;
     sf::Vector2f velocity;
+
+    //time that the player takes to reach to the end
+    float timeTaken;
 
     //Bullet settings
     float attackCoolDown;
@@ -68,6 +72,8 @@ public:
     void setHp(int hp);
     void looseHp(int value);
     sf::Vector2f getPos();
+    float getTimetaken();
+    void setTimetaken(float time);
 
     //Other function
     void move();

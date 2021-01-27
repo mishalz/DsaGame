@@ -9,6 +9,7 @@ Game::Game() {
     //calling all init functions
 
     this->initWindow();
+    this->initTime();
     this->initVariables();
     //background inits
     this->initBackgroundTexture();
@@ -24,18 +25,13 @@ Game::Game() {
     this->initSticks();
     this->initHealthBar();
     this->initText();
+    this->initWinningLine();
 
 }
 
 Game::~Game() {
     delete this->gameWindow;
     delete this->mainPlayer;
-
-    //deleting blocks
-    for(auto* i: this->blocksArray)
-    {
-        delete i;
-    }
 
     //deleting bullets
     for(auto* i: this->bullets)
@@ -58,10 +54,10 @@ Game::~Game() {
 
 //<---------------------- INIT FUNCTIONS ---------------------->
 /* separate functions for initializing each element */
-
 void Game::initVariables()
 {
     this->score=0;
+    this->updatedTime=0.f;
 }
 void Game::initWindow() {
 
@@ -72,15 +68,16 @@ void Game::initWindow() {
                                            sf::Style::Close| sf::Style::Titlebar);
     this->gameWindow->setFramerateLimit(40);
 
+
 }
 void Game::initCaptives() {
 
     this->captives.push_back(new Captives(this->CaptivePositionsMap[1],1));
     this->captives.push_back(new Captives(this->CaptivePositionsMap[2],2));
     this->captives.push_back(new Captives(this->CaptivePositionsMap[3],3));
-    this->captives.push_back(new Captives(this->CaptivePositionsMap[4],1));
-    this->captives.push_back(new Captives(this->CaptivePositionsMap[5],2));
-    this->captives.push_back(new Captives(this->CaptivePositionsMap[6],3));
+    this->captives.push_back(new Captives(this->CaptivePositionsMap[4],4));
+    this->captives.push_back(new Captives(this->CaptivePositionsMap[5],5));
+    this->captives.push_back(new Captives(this->CaptivePositionsMap[6],6));
 
 }
 void Game::initHealthBar()
@@ -96,12 +93,12 @@ void Game::initHealthBar()
 }
 void Game::initSticks()
 {
-    this->sticks.push_back(new Sticks(1311.f,75.f,0.166f,0.18f));
+    this->sticks.push_back(new Sticks(1310.f,77.f,0.166f,0.18f));
     this->sticks.push_back(new Sticks(86.f,155.f,0.16f,0.17f));
-    this->sticks.push_back(new Sticks(1080.f,245.f,0.185f,0.19f));
-    this->sticks.push_back(new Sticks(240.f,735.f,0.19f,0.19f));
-    this->sticks.push_back(new Sticks(1031.f,570.f,0.195f,0.19f));
-    this->sticks.push_back(new Sticks(715.f,180.f,0.165f,0.19f,90.f));
+    this->sticks.push_back(new Sticks(1078.f,245.f,0.185f,0.19f));
+    this->sticks.push_back(new Sticks(245.f,735.f,0.19f,0.19f));
+    this->sticks.push_back(new Sticks(1036.f,568.f,0.195f,0.19f));
+    this->sticks.push_back(new Sticks(715.f,176.f,0.165f,0.19f,90.f));
 
 }
 void Game::initPlayer() {
@@ -110,10 +107,14 @@ void Game::initPlayer() {
 }
 
 void Game::initEnemy() {
-    this->enemies.push_back(new Enemy(sf::Vector2f(300.f,25.f),
-                                      sf::Vector2f(600.f,25.f),0.04,0.04,1.5f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(300.f,27.f),
+                                      sf::Vector2f(600.f,27.f),0.04,0.04,1.5f));
     this->enemies.push_back(new Enemy(sf::Vector2f(1000.f,770.f),
                                       sf::Vector2f(1350.f,770.f),0.05,0.05,2.0f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(140.f,495.f),
+                                      sf::Vector2f(370.f,495.f),0.045,0.045,1.0f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(980.f,340.f),
+                                      sf::Vector2f(1300.f,340.f),0.045,0.045,1.0f));
 }
 void Game::initCaptivePositions()
 {
@@ -127,7 +128,7 @@ void Game::initCaptivePositions()
 void Game::initText()
 {
     //load fonts
-    if(!this->ScoreFont.loadFromFile("Fonts/OpenSans-Regular.ttf"))
+    if(!this->ScoreFont.loadFromFile("Fonts/OpenSans-Bold.ttf"))
     {
         std::cout <<"Failed to load font. \n";
     }
@@ -138,11 +139,20 @@ void Game::initText()
     this->ScoreText.setFillColor(sf::Color::White);
     this->ScoreText.setString("None");
     this->ScoreText.setPosition(50.f,0.f);
+
+    //init health text
     this->HealthText.setFont(this->ScoreFont);
     this->HealthText.setCharacterSize(20);
     this->HealthText.setFillColor(sf::Color::White);
     this->HealthText.setString("Health: ");
     this->HealthText.setPosition(320.f,0.f);
+
+    //init time text
+    this->TimeText.setFont(this->ScoreFont);
+    this->TimeText.setCharacterSize(20);
+    this->TimeText.setFillColor(sf::Color::White);
+    this->TimeText.setString("Time: ");
+    this->TimeText.setPosition(680.f,0.f);
 }
 void Game::initStack()
 {
@@ -155,473 +165,50 @@ void Game::initBackgroundSprite() {
 void Game::initBackgroundTexture() {
     this->backgroundTexture.loadFromFile("Textures/backgroundSprite.png");
 }
-void Game::initBlocks() {
-    //upper side border of blocks
-    float x = 0.f;
-    float y = 0.f;
-    while (x < 1400) {
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-        x = x + 21.5f;
-    }
-
-    //left side border of blocks
-    x = 0.f;
-    y = 850.f;
-    while (y > 76) {
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-        y = y - 21.5f;
-    }
-
-    //bottom side border of blocks
-    x = 21.5f;
-    y = 830.f;
-    while (x < 1500) {
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-        x = x + 21.5f;
-    }
-
-    //right side border of blocks
-    x = 1380.f;
-    y = 745.f;
-    while (y > 10) {
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-        y = y - 21.5f;
-    }
-
-    //starting the maze from top left
-    //|
-    x = 65.f;
-    for (y = 79.f; y <= 470.f; y += 21.5f){
-    blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=470.f;
-    for (x = 65.f; x <= 398.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 410.f;
-    for (y = 470.f; y >= 155.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=160.f;
-    for (x = 410.f; x <= 494.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 546.f;
-    for (y = 79.f; y <= 250.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=240.f;
-    for (x = 480.f; x <= 546.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //--
-    y=322.f;
-    for (x = 420.f; x <= 600.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 613.f;
-    for (y = 322.f; y >= 160.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=160.f;
-    for (x = 613.f; x <= 780.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //--
-    y=245.f;
-    for (x = 613.f; x <= 700.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //--
-    y=325.f;
-    for (x = 780.f; x >= 680.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 680.f;
-    for (y = 325.f; y <= 410.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=401.f;
-    for (x = 680.f; x >= 480.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 480.f;
-    for (y = 401.f; y <= 550.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=480.f;
-    for (x = 550.f; x <= 780.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 545.f;
-    for (y = 480.f; y <= 720.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=730.f;
-    for (x = 545.f; x <= 780.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 780.f;
-    for (y = 730.f; y >= 630.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 780.f;
-    for (y = 160.f; y <= 480.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=480.f;
-    for (x = 780.f; x <= 880.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 940.f;
-    for (y = 400.f; y <= 560.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=560.f;
-    for (x = 940.f; x >= 680.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 615.f;
-    for (y = 560.f; y <= 640.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=640.f;
-    for (x = 615.f; x <= 1010.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1010.f;
-    for (y = 640.f; y >= 480.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=475.f;
-    for (x = 1010.f; x <= 1300.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //captive box bottom right
-    //|
-    x = 1120.f;
-    for (y = 495.f; y <= 560.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 1310.f;
-    for (y = 475.f; y >= 390.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-    blocksArray.push_back(new Blocks(1310.f, 395.f, 0.f));
-
-    //--
-    y=560.f;
-    for (x = 1310.f; x >= 1184.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1188.f;
-    for (y = 560.f; y <= 630.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=640.f;
-    for (x = 1188.f; x >= 1100.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //--
-    y=645.f;
-    for (x = 1260.f; x <= 1400.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //--
-    y=733.f;
-    for (x = 1100.f; x <= 1300.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1082.f;
-    for (y = 640.f; y <= 740.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=733.f;
-    for (x = 1082.f; x >= 860.f; x -= 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 860.f;
-    for (y = 733.f; y <= 820.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=79.f;
-    for (x = 86.f; x <= 134.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 150.f;
-    for (y = 79.f; y <= 163.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 215.f;
-    for (y = 21.f; y <= 226.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    blocksArray.push_back(new Blocks(215.f, 226.f, 0.f));
-    y=226.f;
-    for (x = 130.f; x <= 212.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 130.f;
-    for (y=226.f; y <= 378.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=385.f;
-    for (x = 130.f; x <= 340.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 345.f;
-    for (y=385.f; y >= 160.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=79.f;
-    for (x = 280.f; x <= 1225.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1225.f;
-    for (y=79.f; y <= 150.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=150.f;
-    for (x = 1225.f; x <= 1330.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1290.f;
-    for (y=64.f; y >= 20.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=235.f;
-    for (x = 1180.f; x <= 1330.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1160.f;
-    for (y=235.f; y >= 155.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    blocksArray.push_back(new Blocks(1160.f, 160.f, 0.f));
-
-    //--
-    y=160.f;
-    blocksArray.push_back(new Blocks(280.f, 306.f, 0.f));
-    for (x = 1060.f; x <= 1160.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 1060.f;
-    for (y=300.f; y >= 155.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    blocksArray.push_back(new Blocks(1060.f, 160.f, 0.f));
-
-
-    //|
-    x = 990.f;
-    for (y=235.f; y >= 80.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=315.f;
-    for (x = 929.f; x <= 1360.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 922.f;
-    for (y=315.f; y >= 150.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 850.f;
-    for (y=378.f; y >= 90.f; y -= 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=395.f;
-    for (x = 850.f; x <= 1320.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 280.f;
-    for (y=100.f; y <= 294.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=306.f;
-    blocksArray.push_back(new Blocks(280.f, 306.f, 0.f));
-    for (x = 195.f; x <= 279.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //bottom left corner
-    //--
-    y=550.f;
-    for (x = 65.f; x <= 480.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-    blocksArray.push_back(new Blocks(480.f, 550.f,0.f));
-
-    //|
-    x = 65.f;
-    for (y=640.f; y <= 820.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 140.f;
-    for (y=560.f; y <= 750.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //captive box
-    //|
-    x = 220.f;
-    for (y=640.f; y <= 730.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=640.f;
-    blocksArray.push_back(new Blocks(280.f, 306.f, 0.f));
-    for (x = 225.f; x <= 530.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 320.f;
-    for (y=640.f; y <= 730.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //|
-    x = 390.f;
-    for (y=725.f; y <= 820.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
-    }
-
-    //--
-    y=725.f;
-    blocksArray.push_back(new Blocks(280.f, 306.f, 0.f));
-    for (x = 390.f; x <= 470.f; x += 21.5f) {
-        blocksArray.push_back(new Blocks(x, y,0.f));
-    }
-
-    //|
-    x = 470.f;
-    for (y=725.f; y <= 820.f; y += 21.5f){
-        blocksArray.push_back(new Blocks(x, y, 0.f));
+void Game::initTime()
+{
+    this->startTime= clock();
+}
+void Game::initWinningLine()
+{
+    this->winningLine.setSize(sf::Vector2f(10.f,61.f));
+    this->winningLine.setFillColor(sf::Color(180,180,180,180));
+    this->winningLine.setPosition(sf::Vector2f(1390.f,766.f));
+}
+
+void Game::initBlocks()
+{
+    for(int row=0; row < 85 ; row+=1)
+    {
+        for(int col=0; col<140 ; col +=1)
+        {
+            if(this->MazeStructure[row][col]==1)
+            {
+                blocksArray.push_back(new Blocks(col*10, row*10, 0.f));
+            }
+        }
     }
 }
+
 
 //<---------------------- UPDATE FUNCTIONS ---------------------->
 /* updating values on the basis of events from the last frame */
 
 void Game::update() {
+    this->updateTime();
+    this->updateTimeText();
     this->updateMovement();
     this->updateBullets();
     this->mainPlayer->PlayerUpdate();
     this->updateCollision();
+    this->updateCaptivePlayerCollision();
     this->updateEnemyMovement();
     this->updateEnemyCollision();
     this->updateEnemyBulletCollision();
     this->updateEnemy();
-    this->updateCaptivePlayerCollision();
     this->updateHealthBar();
     this->updateScoreText();
+    this->updatePlayerWinningLineCollision();
 }
 
 //function that listens to events
@@ -947,6 +534,12 @@ void Game::updateScoreText()
     ss << "Points: " << this->score;
     this->ScoreText.setString(ss.str());
 }
+void Game::updateTimeText()
+{
+    std::stringstream ss;
+    ss << "Time: " << std::fixed<<std::setprecision(2)<< this->updatedTime;
+    this->TimeText.setString(ss.str());
+}
 void Game::updateEnemy() {
     for(auto &enemy : this->enemies)
     {
@@ -1024,6 +617,19 @@ void Game::updateCaptivePlayerCollision()
     }
 
 }
+void Game::updatePlayerWinningLineCollision() {
+
+    if(this->mainPlayer->getGlobalBounds().intersects(this->winningLine.getGlobalBounds()))
+    {
+        reachedFinishLine=true;
+        this->mainPlayer->setTimetaken(float(clock()-this->startTime)/CLOCKS_PER_SEC);
+    }
+}
+
+void Game::updateTime()
+{
+    this->updatedTime= float (clock()-startTime) / CLOCKS_PER_SEC;
+}
 //<----------------------------------- RENDER FUNCTIONS ----------------------------------->
 /* Render the newly updated values onto the window to display for the current frame */
 
@@ -1035,6 +641,7 @@ void Game::render() {
     //drawing all the stuff her
     this->renderBackgroundSprite(this->gameWindow);
     this->renderBlocks(this->gameWindow);
+    this->renderTime(this->gameWindow);
     this->mainPlayer->PlayerRender(*this->gameWindow);
     this->renderBullets(this->gameWindow);
     this->renderSticks(this->gameWindow);
@@ -1043,11 +650,17 @@ void Game::render() {
     this->renderSavedCaptives(this->gameWindow);
     this->renderHealthBar(this->gameWindow);
     this->renderScoreText(this->gameWindow);
+    this->renderWinningLine(this->gameWindow);
 
     //this->renderEnemyHealthBar(this->gameWindow);
 
     //displaying the window
     this->gameWindow->display();
+
+    if(this->reachedFinishLine)
+    {
+
+    }
 }
 void Game::renderCaptives(sf::RenderWindow *target){
     for(auto &captive: this->captives){
@@ -1114,19 +727,57 @@ void Game::renderSavedCaptives(sf::RenderWindow *target) {
     int counter=0;
     for(auto &savedCaptive : this->savedCaptives)
     {
-        savedCaptive->setPosition(sf::Vector2f(700.f + (25.f*counter),0.f));
+        savedCaptive->setPosition(sf::Vector2f(950.f + (25.f*counter),0.f));
         savedCaptive->setScale(0.05f,0.05f);
         savedCaptive->renderCaptive(target);
         counter++;
     }
 
 }
+void Game::renderTime(sf::RenderWindow *target)
+{
+    target->draw(this->TimeText);
+}
+void Game::renderWinningLine(sf::RenderWindow* target)
+{
+    target->draw(this->winningLine);
+}
+
 //<---------------------- GETTERS AND SETTERS ---------------------->
 
 sf::RenderWindow *Game::getWindow() {
     return this->gameWindow;
 }
+/*int* Game::getMazeStructure() {
+    for(int row=0; row < 850 ; row+=10)
+    {
+        for(int col=0; col<1400 ; col +=10)
+        {
+            for(auto &block:this->blocksArray)
+            {
+                if(block->getGlobalBounds().contains(col,row))
+                {
+                    this->MazeStructure[row][col]=1;
+                    break;
+                }
+                else{
+                    this->MazeStructure[row][col]=0;
+                }
+            }
+        }
+    }
 
+    for(int row=0; row < 850 ; row+=10)
+    {
+        std::cout << "{ ";
+        for(int col=0; col<1400 ; col +=10)
+        {
+            std::cout << this->MazeStructure[row][col] << ", ";
+        }
+        std::cout << "}, "<< std::endl;
+    }
+
+}*/
 //<---------------------- RUN FUNCTION ---------------------->
 /* The main run function that includes the game loop and calls the three main functions for each frame */
 
@@ -1139,12 +790,15 @@ void Game::runGame() {
 
         this->updatePollEvents();
 
-        if(this->mainPlayer->getHp() >0) {
+        if(this->mainPlayer->getHp() >0 && !this->reachedFinishLine) {
             this->update();
         }
 
         this->render();
 }
+
+
+
 
 
 
