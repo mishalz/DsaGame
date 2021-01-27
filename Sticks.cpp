@@ -6,19 +6,23 @@
 
 //<---------- CONSTRUCTORS AND DESTRUCTORS ---------->
 Sticks::Sticks(float x, float y, float scaleX, float scaleY) {
-    this->initSprite(x,y,scaleX,scaleY);
+    this->initSprite(x,y,scaleX,scaleY,0.f);
 }
-
+Sticks::Sticks(float x, float y,float scaleX, float scaleY, float angle)
+{
+    this->initSprite(x,y,scaleX,scaleY,angle);
+}
 Sticks::~Sticks() {
 
 }
 
 //<------------ INITAILIZING FUNCTIONS ------------>
 
-void Sticks::initSprite(float x, float y,float scaleX, float scaleY) {
+void Sticks::initSprite(float x, float y,float scaleX, float scaleY, float angle) {
     this->stickTexture.loadFromFile("Textures/stickSprite.png");
     this->stickSprite.setTexture(this->stickTexture);
     this->stickSprite.setScale(scaleX,scaleY);
+    this->stickSprite.rotate(angle);
     this->stickSprite.setPosition(x,y);
 
     this->Open=false;

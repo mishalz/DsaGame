@@ -33,6 +33,7 @@ public:
     void setPosition(sf::Vector2f pos);
     sf::FloatRect getBounds();
     void setScale(float x, float y);
+    int getId();
 
     //update functions
 

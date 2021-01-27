@@ -11,6 +11,7 @@
 #include "Bullets.h"
 #include "Stack.h"
 #include <sstream>
+#include <map>
 
 #ifndef DSAGAME_GAME_H
 #define DSAGAME_GAME_H
@@ -47,6 +48,8 @@ private:
     //stack to store the captives when captured
     Stack* CaptiveStack;
 
+    //map that keeps the value of captive id and its position in the map
+    std::map<int, sf::Vector2f> CaptivePositionsMap;
     //<------- End data structures ------->
 
     //number of captives captured
@@ -71,7 +74,6 @@ private:
     sf::Text ScoreText;
     sf::Text HealthText;
 
-
 public:
 
     float dt;
@@ -86,6 +88,7 @@ public:
     void initWindow();
     void initPlayer();
     void initEnemy();
+    void initCaptivePositions();
     void initCaptives();
     void initSticks();
     void initStack();

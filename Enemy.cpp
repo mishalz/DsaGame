@@ -6,9 +6,9 @@
 //<------------- CONSTRUCTORS AND DESTRUCTORS ------------->
 Enemy::Enemy(){}
 
-Enemy::Enemy(sf::Vector2f startingP, sf::Vector2f EndingP, float mspeed)
+Enemy::Enemy(sf::Vector2f startingP, sf::Vector2f EndingP, float scaleX, float scaleY, float mspeed)
 {
-    this->initVariables();
+    this->initVariables(scaleX,scaleY);
     this->setMovementSpeed(mspeed);
     this->initTexture();
     this->initSprite();
@@ -22,14 +22,16 @@ Enemy::~Enemy() {
 
 //<------------- INITIALIZING FUNCTIONS ------------->
 
-void Enemy::initVariables()
+void Enemy::initVariables(float scaleX, float scaleY)
 {
+    this->scales.x=scaleX;
+    this->scales.y=scaleY;
     this->hpMax=10;
     this->hp= this->hpMax;
 }
 void Enemy::initSprite() {
     this->enemySprite.setTexture(this->texture);
-    this->enemySprite.setScale(0.05f,0.05f);
+    this->enemySprite.setScale(this->scales.x,this->scales.y);
 }
 
 void Enemy::initTexture() {
@@ -111,13 +113,13 @@ void Enemy::move(float x, float y) {
 
     if(this->enemySprite.getGlobalBounds().left == this->EndingPos.x)
     {
-        this->movementSpeed=-1.f;
-        this->enemySprite.setScale(-0.05f,0.05f);
+        this->movementSpeed=- sqrt(pow(this->movementSpeed,2));
+        this->enemySprite.setScale(-this->scales.x,this->scales.y);
     }
     else if(this->enemySprite.getGlobalBounds().left +this->enemySprite.getGlobalBounds().width == this->startingPos.x)
     {
-        this->movementSpeed=1.f;
-        this->enemySprite.setScale(0.05f,0.05f);
+        this->movementSpeed= sqrt(pow(this->movementSpeed,2));
+        this->enemySprite.setScale(this->scales.y,this->scales.y);
     }
 
 }

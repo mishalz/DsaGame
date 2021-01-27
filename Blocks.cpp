@@ -30,7 +30,7 @@ Blocks::~Blocks() {
 void Blocks::initSprite(float posX, float posY, float angle) {
     this->BlockSprite.setTexture(this->BlockTexture);
     this->BlockSprite.setPosition(posX,posY);
-    this->BlockSprite.setScale(0.5f,0.4f);
+    this->BlockSprite.setScale(0.15f,0.15f);
     this->BlockSprite.rotate(angle);
 }
 

@@ -20,7 +20,7 @@ Captives::~Captives() {
 void Captives::initCaptiveSprite(sf::Vector2f pos) {
     this->captiveTexture.loadFromFile("Textures/prisonersSprite.png");
     this->captiveSprite.setTexture(this->captiveTexture);
-    this->captiveSprite.setScale(0.1f,0.1f);
+    this->captiveSprite.setScale(0.09f,0.09f);
     this->captiveSprite.setPosition(pos);
 }
 void Captives::initVariables(int Id)
@@ -37,7 +37,10 @@ sf::FloatRect Captives::getBounds() {
 void Captives::setScale(float x, float y){
     this->captiveSprite.setScale(x,y);
 }
-
+int Captives::getId()
+{
+    return this->captiveId;
+}
 //<----------------- UPDATE FUNCTIONS ----------------->
 
 //<----------------- RENDER FUNCTIONS ----------------->

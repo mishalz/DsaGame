@@ -13,7 +13,7 @@ Bullets::Bullets(float pos_x, float pos_y,float width, float height, float mSpee
 
     this->BulletTexture.loadFromFile("Textures/bullet.png");
     this->BulletShape.setTexture(this->BulletTexture);
-    this->BulletShape.scale(0.03f,0.03f);
+    this->BulletShape.scale(0.015f,0.015f);
 
     this->BulletDirection=direction;
     this->setPos(pos_x,pos_y,width,height);
@@ -37,19 +37,19 @@ float Bullets::getWidth() {
 void Bullets::setPos(float x, float y,float width, float height) {
     if(this->BulletDirection=="f")
     {
-        this->BulletShape.setPosition(x + width + 5.f,y +height/2 );
+        this->BulletShape.setPosition(x + width - 5 ,y +height/2 );
     }
     else if(this->BulletDirection=="r")
     {
-        this->BulletShape.setPosition(x + width/2 ,y + 2.f);
+        this->BulletShape.setPosition(x + width/2 ,y + height/2 - 15);
     }
     else if(this->BulletDirection=="l")
     {
-        this->BulletShape.setPosition(x + width/2 ,y +height-5.f );
+        this->BulletShape.setPosition(x + width/2 ,y +height/2 + 12);
     }
     else if(this->BulletDirection=="b")
     {
-        this->BulletShape.setPosition(x - 10.f,y +height/2 );
+        this->BulletShape.setPosition(x + width/2 - 17,y +height/2 );
     }
 }
 void Bullets::setDirection() {

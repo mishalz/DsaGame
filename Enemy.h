@@ -3,6 +3,7 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #ifndef DSAGAME_ENEMY_H
 #define DSAGAME_ENEMY_H
@@ -22,6 +23,8 @@ private:
     sf::Vector2f startingPos;
     sf::Vector2f EndingPos;
 
+    sf::Vector2f scales;
+
     //health of the player
     int hp;
     int hpMax;
@@ -32,14 +35,14 @@ private:
 
 public:
     //constructors and destructors
-    Enemy(sf::Vector2f startingP, sf::Vector2f EndingPos, float mspeed);
+    Enemy(sf::Vector2f startingP, sf::Vector2f EndingPos,float scaleX, float scaleY, float mspeed);
     Enemy();
     virtual ~Enemy();
 
     //init functions
     void initSprite();
     void initTexture();
-    void initVariables();
+    void initVariables(float scaleX, float scaleY);
     void initPositions(sf::Vector2f startingP, sf::Vector2f EndingP);
     void initHealthBar();
 
