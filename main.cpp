@@ -17,6 +17,5 @@ int main() {
 
     }
 
-    //game.getMazeStructure();
     return 0;
 }

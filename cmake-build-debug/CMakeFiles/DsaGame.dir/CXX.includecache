@@ -51,8 +51,14 @@ sstream
 -
 map
 -
+tuple
+-
+vector
+-
 time.h
 -
+queue
+/Users/mishalzulfiqar/CLionProjects/Captive/queue
 iostream
 -
 iomanip

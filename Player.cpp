@@ -46,10 +46,10 @@ void Player::initPlayerSprite() {
     this->PlayerSprite.setTexture(this->PlayerTexture);
 
     //set the position of the player
-    this->PlayerSprite.setPosition(0.f,35.f); //on the upper left corner
+    this->PlayerSprite.setPosition(0.f,40.f); //on the upper left corner
 
     //set scale
-    this->PlayerSprite.setScale(0.5f,0.45f);
+    this->PlayerSprite.setScale(0.5f,0.5f);
 
 }
 

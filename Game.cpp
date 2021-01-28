@@ -1,6 +1,8 @@
 
 #include "Game.h"
 
+
+
 //<----------------- CONSTRUCTORS AND DESTRUCTORS ----------------->
 /* constructing the game object and also deleting it */
 
@@ -11,9 +13,6 @@ Game::Game() {
     this->initWindow();
     this->initTime();
     this->initVariables();
-    //background inits
-    this->initBackgroundTexture();
-    this->initBackgroundSprite();
     //initializing the main player attributes
     this->initPlayer();
     this->initEnemy();
@@ -50,19 +49,27 @@ Game::~Game() {
     {
         delete i;
     }
+
+    //deleting block
+    for(auto* i: this->blocksArray)
+    {
+        delete i;
+    }
 }
 
 //<---------------------- INIT FUNCTIONS ---------------------->
 /* separate functions for initializing each element */
 void Game::initVariables()
 {
+    this->endPoints=sf::Vector2f(27.f,14.f);
+    this->startPoints=sf::Vector2f(0.f,1.f);
     this->score=0;
     this->updatedTime=0.f;
 }
 void Game::initWindow() {
 
     sf::VideoMode videoMode;
-    videoMode=sf::VideoMode(1400,850);
+    videoMode=sf::VideoMode(1400,800);
     this->gameWindow= new sf::RenderWindow(videoMode,
                                            "CAPTIVE - EDITION 1",
                                            sf::Style::Close| sf::Style::Titlebar);
@@ -84,8 +91,8 @@ void Game::initHealthBar()
 {
     //init player health
     this->playerHpBar.setSize(sf::Vector2f(100.f,20.f));
-    this->playerHpBar.setFillColor(sf::Color::Green);
-    this->playerHpBar.setPosition(sf::Vector2f(400.f,0.f));
+    this->playerHpBar.setFillColor(sf::Color(115,201,235, 255));
+    this->playerHpBar.setPosition(sf::Vector2f(400.f,03.f));
 
     this->playerHpBarBack=this->playerHpBar;
     this->playerHpBarBack.setFillColor(sf::Color(25,25,25,200));
@@ -93,13 +100,12 @@ void Game::initHealthBar()
 }
 void Game::initSticks()
 {
-    this->sticks.push_back(new Sticks(1310.f,77.f,0.166f,0.18f));
-    this->sticks.push_back(new Sticks(86.f,155.f,0.16f,0.17f));
-    this->sticks.push_back(new Sticks(1078.f,245.f,0.185f,0.19f));
-    this->sticks.push_back(new Sticks(245.f,735.f,0.19f,0.19f));
-    this->sticks.push_back(new Sticks(1036.f,568.f,0.195f,0.19f));
-    this->sticks.push_back(new Sticks(715.f,176.f,0.165f,0.19f,90.f));
-
+    this->sticks.push_back(new Sticks(1291.f,85.f,0.152f,0.14f)); //
+    this->sticks.push_back(new Sticks(142.f,188.f,0.152f,0.14f)); //
+    this->sticks.push_back(new Sticks(943.f,195.f,0.152f,0.14f)); //
+    this->sticks.push_back(new Sticks(43.f,690.f,0.152f,0.14f)); //
+    this->sticks.push_back(new Sticks(1100.f,493.f,0.152f,0.14f, 90.f));
+    this->sticks.push_back(new Sticks(643.f,195.f,0.152f,0.14f)); //
 }
 void Game::initPlayer() {
     this->mainPlayer=new Player();
@@ -107,23 +113,21 @@ void Game::initPlayer() {
 }
 
 void Game::initEnemy() {
-    this->enemies.push_back(new Enemy(sf::Vector2f(300.f,27.f),
-                                      sf::Vector2f(600.f,27.f),0.04,0.04,1.5f));
-    this->enemies.push_back(new Enemy(sf::Vector2f(1000.f,770.f),
-                                      sf::Vector2f(1350.f,770.f),0.05,0.05,2.0f));
-    this->enemies.push_back(new Enemy(sf::Vector2f(140.f,495.f),
-                                      sf::Vector2f(370.f,495.f),0.045,0.045,1.0f));
-    this->enemies.push_back(new Enemy(sf::Vector2f(980.f,340.f),
-                                      sf::Vector2f(1300.f,340.f),0.045,0.045,1.0f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(400.f,45.f),
+                                      sf::Vector2f(700.f,45.f),0.04,0.045,1.5f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(200.f,495.f),
+                                      sf::Vector2f(410.f,495.f),0.045,0.045,1.0f));
+    this->enemies.push_back(new Enemy(sf::Vector2f(1050.f,195.f),
+                                      sf::Vector2f(1300.f,195.f),0.045,0.045,1.0f));
 }
 void Game::initCaptivePositions()
 {
-    this->CaptivePositionsMap.insert({1, sf::Vector2f(1310.f,20.f)});
-    this->CaptivePositionsMap.insert({2, sf::Vector2f(80.f,100.f)});
-    this->CaptivePositionsMap.insert({3, sf::Vector2f(1085.f,187.f)});
-    this->CaptivePositionsMap.insert({4, sf::Vector2f(245.f,674.f)});
+    this->CaptivePositionsMap.insert({1, sf::Vector2f(1290.f,45.f)});
+    this->CaptivePositionsMap.insert({2, sf::Vector2f(145.f,145.f)});
+    this->CaptivePositionsMap.insert({3, sf::Vector2f(940.f,205.f)});
+    this->CaptivePositionsMap.insert({4, sf::Vector2f(45.f,700.f)});
     this->CaptivePositionsMap.insert({5, sf::Vector2f(1040.f,505.f)});
-    this->CaptivePositionsMap.insert({6, sf::Vector2f(625.f,185.f)});
+    this->CaptivePositionsMap.insert({6, sf::Vector2f(645.f,205.f)});
 }
 void Game::initText()
 {
@@ -158,13 +162,7 @@ void Game::initStack()
 {
     this->CaptiveStack=new Stack(this->captives.size());
 };
-void Game::initBackgroundSprite() {
-    this->backgroundSprite.setTexture(this->backgroundTexture);
 
-}
-void Game::initBackgroundTexture() {
-    this->backgroundTexture.loadFromFile("Textures/backgroundSprite.png");
-}
 void Game::initTime()
 {
     this->startTime= clock();
@@ -178,13 +176,17 @@ void Game::initWinningLine()
 
 void Game::initBlocks()
 {
-    for(int row=0; row < 85 ; row+=1)
+    for(int row=0; row < 16 ; row+=1)
     {
-        for(int col=0; col<140 ; col +=1)
+        for(int col=0; col< 28 ; col +=1)
         {
             if(this->MazeStructure[row][col]==1)
             {
-                blocksArray.push_back(new Blocks(col*10, row*10, 0.f));
+                blocksArray.push_back(new Blocks(col* 50, row*50, 0.f));
+            }
+            else if(this->MazeStructure[row][col]==0)
+            {
+                this->pathCoordinates.push_back(std::make_pair(col, row));
             }
         }
     }
@@ -566,6 +568,19 @@ void Game::updateStickPlayerCollision() {
                 this->mainPlayer->setPosition(playerBounds.left, stickBounds.top + stickBounds.height);
             }
 
+            //bottom collision
+            if(playerBounds.top < stickBounds.top
+               && playerBounds.top + playerBounds.height < stickBounds.top +stickBounds.height
+               && playerBounds.left < stickBounds.left + stickBounds.width
+               && playerBounds.left + playerBounds.width > stickBounds.left)
+            {
+                this->mainPlayer->setVelocity(sf::Vector2f(
+                        this->mainPlayer->getVelocity().x,
+                        0.f));
+
+                this->mainPlayer->setPosition(playerBounds.left, stickBounds.top - playerBounds.height);
+            }
+
                 //left collision
             else if(playerBounds.left > stickBounds.left
                     && playerBounds.left + playerBounds.width > stickBounds.left +stickBounds.width
@@ -639,28 +654,24 @@ void Game::render() {
     this->gameWindow->clear();
 
     //drawing all the stuff her
-    this->renderBackgroundSprite(this->gameWindow);
     this->renderBlocks(this->gameWindow);
     this->renderTime(this->gameWindow);
     this->mainPlayer->PlayerRender(*this->gameWindow);
+    this->renderHealthBar(this->gameWindow);
+    this->renderScoreText(this->gameWindow);
     this->renderBullets(this->gameWindow);
     this->renderSticks(this->gameWindow);
     this->renderEnemies(this->gameWindow);
     this->renderCaptives(this->gameWindow);
     this->renderSavedCaptives(this->gameWindow);
-    this->renderHealthBar(this->gameWindow);
-    this->renderScoreText(this->gameWindow);
     this->renderWinningLine(this->gameWindow);
+    this->renderBFSelements(this->gameWindow);
 
     //this->renderEnemyHealthBar(this->gameWindow);
 
     //displaying the window
     this->gameWindow->display();
 
-    if(this->reachedFinishLine)
-    {
-
-    }
 }
 void Game::renderCaptives(sf::RenderWindow *target){
     for(auto &captive: this->captives){
@@ -703,17 +714,8 @@ void Game::renderBullets(sf::RenderWindow *target)
     }
 }
 
-void Game::renderBackgroundSprite(sf::RenderTarget* target) {
-    for (int x = 0; x <= 1410 ; x+=80) {
-        for (int y = 0; y <= 810 ; y+=50) {
-            this->backgroundSprite.setPosition(x,y);
-            target->draw(this->backgroundSprite);
-        }
-    }
-}
 void Game::renderHealthBar(sf::RenderWindow *target)
 {
-
     target->draw(this->HealthText);
     target->draw(this->playerHpBarBack);
     target->draw(this->playerHpBar);
@@ -727,8 +729,8 @@ void Game::renderSavedCaptives(sf::RenderWindow *target) {
     int counter=0;
     for(auto &savedCaptive : this->savedCaptives)
     {
-        savedCaptive->setPosition(sf::Vector2f(950.f + (25.f*counter),0.f));
-        savedCaptive->setScale(0.05f,0.05f);
+        savedCaptive->setPosition(sf::Vector2f(950.f + (35.f*counter),0.f));
+        savedCaptive->setScale(0.09f,0.09f);
         savedCaptive->renderCaptive(target);
         counter++;
     }
@@ -742,42 +744,42 @@ void Game::renderWinningLine(sf::RenderWindow* target)
 {
     target->draw(this->winningLine);
 }
+void Game::renderBFSelements(sf::RenderWindow* target)
+{
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+    {
+        this->BFSsearch(this->startPoints.x,this->startPoints.y);
+        this->backTracking();
+
+        for(auto &shapes: this->illuminators)
+        {
+            target->draw(shapes);
+        }
+    }
+
+}
 
 //<---------------------- GETTERS AND SETTERS ---------------------->
 
 sf::RenderWindow *Game::getWindow() {
     return this->gameWindow;
 }
-/*int* Game::getMazeStructure() {
-    for(int row=0; row < 850 ; row+=10)
+sf::CircleShape Game::getCircleIlluminator(float x, float y)
+{
+    for(auto &circle : this->illuminators)
     {
-        for(int col=0; col<1400 ; col +=10)
+        if(circle.getPosition().x==x && circle.getPosition().y==y)
         {
-            for(auto &block:this->blocksArray)
-            {
-                if(block->getGlobalBounds().contains(col,row))
-                {
-                    this->MazeStructure[row][col]=1;
-                    break;
-                }
-                else{
-                    this->MazeStructure[row][col]=0;
-                }
-            }
+            return circle;
         }
     }
 
-    for(int row=0; row < 850 ; row+=10)
-    {
-        std::cout << "{ ";
-        for(int col=0; col<1400 ; col +=10)
-        {
-            std::cout << this->MazeStructure[row][col] << ", ";
-        }
-        std::cout << "}, "<< std::endl;
-    }
-
-}*/
+    sf::CircleShape circle;
+    circle.setFillColor(sf::Color::White);
+    circle.setRadius(4);
+    circle.setPosition(x,y);
+    return circle;
+}
 //<---------------------- RUN FUNCTION ---------------------->
 /* The main run function that includes the game loop and calls the three main functions for each frame */
 
@@ -796,6 +798,127 @@ void Game::runGame() {
 
         this->render();
 }
+
+//<--------------- BREADTH FIRST TRAVERSAL AND BACKTRACKING TO FIND OUT THE SHORTEST PATH --------------->
+void Game::BFSsearch(float x1, float y2) {
+
+    //inserting the current coordinates into the activeCoordinates list and
+    //the solution map
+    this->searchedPath=new nodeStructure(x1,y2, nullptr);
+
+    this->activeCoordinates.push_back(this->searchedPath);
+
+    while(!activeCoordinates.empty())
+    {
+        //dequeueing the activeCoordinates queue
+        nodeStructure* currentCoordinates=this->activeCoordinates.back();
+        float x=currentCoordinates->x;
+        float y=currentCoordinates->y;
+        this->activeCoordinates.pop_back();
+
+        //checking if the coordinates on the left are either visited or a wall
+        if(existsInPath(x-1, y) && notExistsInVisited(x-1, y))
+        {
+            //adding the coordinate to the activeCoordinates vector
+            this->activeCoordinates.push_back(new nodeStructure(x-1,y,currentCoordinates));
+            //also adding those coordinates in the visited coordinates list
+            this->visitedCoordinates.emplace_back(std::make_tuple(x-1
+                                                                  ,y));
+        }
+
+        //checking if the coordinates on the bottom are either visited or a wall
+        if(existsInPath(x, y+1) && notExistsInVisited(x, y+1))
+        {
+
+            //adding the coordinate to the activeCoordinates vector
+            this->activeCoordinates.push_back(new nodeStructure(x,y+1,currentCoordinates));
+            //also adding those coordinates in the visited coordinates list
+            this->visitedCoordinates.emplace_back(std::make_tuple(x,y+1));
+        }
+
+        //checking if the coordinates on the right are either visited or a wall
+        if(existsInPath(x+1, y) && notExistsInVisited(x+1, y))
+        {
+
+            //adding the coordinate to the activeCoordinates vector
+            this->activeCoordinates.push_back(new nodeStructure(x+1,y,currentCoordinates));
+            //also adding those coordinates in the visited coordinates list
+            this->visitedCoordinates.emplace_back(std::make_tuple(x+1,y));
+        }
+
+        //checking if the coordinates on the top are either visited or a wall
+        if(existsInPath(x, y-1) && notExistsInVisited(x, y-1))
+        {
+
+            //adding the coordinate to the activeCoordinates vector
+            this->activeCoordinates.push_back(new nodeStructure(x,y-1,currentCoordinates));
+            //also adding those coordinates in the visited coordinates list
+            this->visitedCoordinates.emplace_back(std::make_tuple(x,y-1));
+        }
+
+
+        this->illuminators.push_back(getCircleIlluminator(x*50, y*50));
+
+        if(x==27 && y==14)
+        {
+            this->endOfPath=currentCoordinates;
+        }
+    }
+
+}
+
+void Game::backTracking()
+{
+    float x= 27.f;
+    float y= 14.f;
+
+    sf::CircleShape temp=getCircleIlluminator(x*50,y*50);
+    temp.setFillColor(sf::Color::Yellow);
+    this->illuminators.push_back(temp);
+
+    nodeStructure* iter=this->endOfPath;
+    nodeStructure* tempPtr;
+
+    while( x != this->startPoints.x || y != this->startPoints.y && iter!= nullptr)
+    {
+        tempPtr= iter->previous;
+        iter= tempPtr;
+
+        x=iter->x;
+        y=iter->y;
+
+        temp=getCircleIlluminator(x*50,y*50);
+        temp.setFillColor(sf::Color::Yellow);
+        this->illuminators.push_back(temp);
+    }
+}
+bool Game::existsInPath(float x, float y) {
+
+    for(auto &pathCo: this->pathCoordinates)
+    {
+        if(pathCo.first==x && pathCo.second==y)
+        {
+           return true;
+        }
+    }
+    return false;
+}
+
+bool Game::notExistsInVisited(float x, float y) {
+
+    for(auto &pathCo: this->visitedCoordinates)
+    {
+        if(pathCo.first==x && pathCo.second==y)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+
 
 
 

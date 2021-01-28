@@ -18,9 +18,9 @@ Captives::~Captives() {
 
 //<-------------- INITIALIZING FUNCTIONS -------------->
 void Captives::initCaptiveSprite(sf::Vector2f pos) {
-    this->captiveTexture.loadFromFile("Textures/prisonersSprite.png");
+    this->captiveTexture.loadFromFile("Textures/dragonCaptive.png");
     this->captiveSprite.setTexture(this->captiveTexture);
-    this->captiveSprite.setScale(0.08f,0.08f);
+    this->captiveSprite.setScale(0.13f,0.13f);
     this->captiveSprite.setPosition(pos);
 }
 void Captives::initVariables(int Id)
