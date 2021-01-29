@@ -9,8 +9,10 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/mishalzulfiqar/CLionProjects/Captive/Captives.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/Captives.cpp.o"
   "/Users/mishalzulfiqar/CLionProjects/Captive/Enemy.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/Enemy.cpp.o"
   "/Users/mishalzulfiqar/CLionProjects/Captive/Game.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/Game.cpp.o"
+  "/Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o"
   "/Users/mishalzulfiqar/CLionProjects/Captive/Player.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/Player.cpp.o"
   "/Users/mishalzulfiqar/CLionProjects/Captive/Sticks.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/Sticks.cpp.o"
+  "/Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o"
   "/Users/mishalzulfiqar/CLionProjects/Captive/main.cpp" "/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles/DsaGame.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")

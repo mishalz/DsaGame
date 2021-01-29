@@ -278,6 +278,33 @@ Game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
+GameOverWindow.o: GameOverWindow.cpp.o
+
+.PHONY : GameOverWindow.o
+
+# target to build an object file
+GameOverWindow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o
+.PHONY : GameOverWindow.cpp.o
+
+GameOverWindow.i: GameOverWindow.cpp.i
+
+.PHONY : GameOverWindow.i
+
+# target to preprocess a source file
+GameOverWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/GameOverWindow.cpp.i
+.PHONY : GameOverWindow.cpp.i
+
+GameOverWindow.s: GameOverWindow.cpp.s
+
+.PHONY : GameOverWindow.s
+
+# target to generate assembly for a file
+GameOverWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/GameOverWindow.cpp.s
+.PHONY : GameOverWindow.cpp.s
+
 Player.o: Player.cpp.o
 
 .PHONY : Player.o
@@ -332,6 +359,33 @@ Sticks.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/Sticks.cpp.s
 .PHONY : Sticks.cpp.s
 
+SuccessWindow.o: SuccessWindow.cpp.o
+
+.PHONY : SuccessWindow.o
+
+# target to build an object file
+SuccessWindow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o
+.PHONY : SuccessWindow.cpp.o
+
+SuccessWindow.i: SuccessWindow.cpp.i
+
+.PHONY : SuccessWindow.i
+
+# target to preprocess a source file
+SuccessWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/SuccessWindow.cpp.i
+.PHONY : SuccessWindow.cpp.i
+
+SuccessWindow.s: SuccessWindow.cpp.s
+
+.PHONY : SuccessWindow.s
+
+# target to generate assembly for a file
+SuccessWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DsaGame.dir/build.make CMakeFiles/DsaGame.dir/SuccessWindow.cpp.s
+.PHONY : SuccessWindow.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -383,12 +437,18 @@ help:
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
+	@echo "... GameOverWindow.o"
+	@echo "... GameOverWindow.i"
+	@echo "... GameOverWindow.s"
 	@echo "... Player.o"
 	@echo "... Player.i"
 	@echo "... Player.s"
 	@echo "... Sticks.o"
 	@echo "... Sticks.i"
 	@echo "... Sticks.s"
+	@echo "... SuccessWindow.o"
+	@echo "... SuccessWindow.i"
+	@echo "... SuccessWindow.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

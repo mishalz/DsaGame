@@ -16,6 +16,8 @@
 #include <vector>
 #include <time.h>
 #include "queue"
+#include "SuccessWindow.h"
+#include "GameOverWindow.h"
 #include <iostream>
 #include <iomanip>
 
@@ -129,6 +131,33 @@ private:
     time_t startTime;
     float updatedTime;
 
+    //SUCCES MESSAGE AND INFO SECTION
+    SuccessWindow* succesPanel;
+    GameOverWindow* gameOverPanel;
+
+    //<--------------------------------arooba part---------------------------------->
+    //attributes
+    sf::RenderWindow* menuWindow;
+
+    // texts & fonts
+    sf::Font TitleFont; //title
+    sf::Text TitleText;
+    sf::Font MenuFont;	//menu
+    sf::Text StartText;
+    sf::Text HighscoresText;
+    sf::Text CreditsText;
+    sf::Text NameText; // enter name
+
+
+    // menu buttons
+    sf::FloatRect StartButton;
+    sf::FloatRect HighscoresButton;
+    sf::FloatRect CreditsButton;
+
+    // background image
+    sf::Sprite backgroundSprite;
+    sf::Texture backgroundTexture;
+    //<--------------------------------arooba part---------------------------------->
 public:
 
     float dt;
@@ -148,12 +177,12 @@ public:
     void initSticks();
     void initStack();
     void initBlocks();
-    void initBackgroundSprite();
-    void initBackgroundTexture();
     void initHealthBar();
     void initText();
     void initTime();
     void initWinningLine();
+    void initSuccessPanel(float points, float hp, float hpMax, float timeTaken, std::vector<Captives*> captives);
+    void initGameOverPanel();
 
     //update functions
     void update();
@@ -181,7 +210,6 @@ public:
     void renderCaptives(sf::RenderWindow *target);
     void renderPlayerMovementDirection( std::string texture1);
     void renderBlocks(sf::RenderTarget* target);
-    void renderBackgroundSprite(sf::RenderTarget* target);
     void renderHealthBar(sf::RenderWindow* target);
     void renderScoreText(sf::RenderWindow* target);
     void renderBullets(sf::RenderWindow* target);
@@ -206,6 +234,29 @@ public:
     //run function
     void runGame();
 
+    //<--------------------------------arooba part---------------------------------->
+    //bools to check which button is clicked;
+    bool startButtonClicked;
+    bool highScoreButtonClicked;
+
+    //init functions
+    void initBackgroundSprite(); // background
+    void initBackgroundTexture();
+    void initMenuText(); // entire menu including title
+    void initTitleText();
+    void initStartText();
+    void initHighscoresText();
+    void initCreditsText();
+    void initNameText(); // enter name
+
+    //render functions
+    void renderMenuText(sf::RenderWindow* target);
+    void renderBackgroundSprite(sf::RenderTarget* target);
+    void renderNameText(sf::RenderWindow* target);
+
+    // button size for menu text
+    sf::Vector2f ButtonSize(sf::Text text);
+    //<--------------------------------arooba part---------------------------------->
 };
 
 

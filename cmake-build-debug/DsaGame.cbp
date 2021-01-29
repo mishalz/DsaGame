@@ -110,6 +110,12 @@
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Game.h">
 			<Option target="DsaGame"/>
 		</Unit>
+		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.cpp">
+			<Option target="DsaGame"/>
+		</Unit>
+		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.h">
+			<Option target="DsaGame"/>
+		</Unit>
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Player.cpp">
 			<Option target="DsaGame"/>
 		</Unit>
@@ -123,6 +129,12 @@
 			<Option target="DsaGame"/>
 		</Unit>
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/Sticks.h">
+			<Option target="DsaGame"/>
+		</Unit>
+		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.cpp">
+			<Option target="DsaGame"/>
+		</Unit>
+		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.h">
 			<Option target="DsaGame"/>
 		</Unit>
 		<Unit filename="/Users/mishalzulfiqar/CLionProjects/Captive/main.cpp">

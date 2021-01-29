@@ -8,10 +8,18 @@
 
 Game::Game() {
 
-    //calling all init functions
+    //making the button bools for the start
+    this->startButtonClicked=false;
+    this->highScoreButtonClicked=false;
 
+    //arooba part
+    this->initMenuText();
+    //this->initNameText();
+    this->initBackgroundTexture();
+    this->initBackgroundSprite();
+
+    //calling all init functions
     this->initWindow();
-    this->initTime();
     this->initVariables();
     //initializing the main player attributes
     this->initPlayer();
@@ -25,6 +33,8 @@ Game::Game() {
     this->initHealthBar();
     this->initText();
     this->initWinningLine();
+
+    this->initGameOverPanel();
 
 }
 
@@ -71,7 +81,7 @@ void Game::initWindow() {
     sf::VideoMode videoMode;
     videoMode=sf::VideoMode(1400,800);
     this->gameWindow= new sf::RenderWindow(videoMode,
-                                           "CAPTIVE - EDITION 1",
+                                           " R E A P E R ",
                                            sf::Style::Close| sf::Style::Titlebar);
     this->gameWindow->setFramerateLimit(40);
 
@@ -117,7 +127,7 @@ void Game::initEnemy() {
                                       sf::Vector2f(700.f,45.f),0.04,0.045,1.5f));
     this->enemies.push_back(new Enemy(sf::Vector2f(200.f,495.f),
                                       sf::Vector2f(410.f,495.f),0.045,0.045,1.0f));
-    this->enemies.push_back(new Enemy(sf::Vector2f(1050.f,195.f),
+    this->enemies.push_back(new Enemy(sf::Vector2f(1080.f,195.f),
                                       sf::Vector2f(1300.f,195.f),0.045,0.045,1.0f));
 }
 void Game::initCaptivePositions()
@@ -169,9 +179,9 @@ void Game::initTime()
 }
 void Game::initWinningLine()
 {
-    this->winningLine.setSize(sf::Vector2f(10.f,61.f));
+    this->winningLine.setSize(sf::Vector2f(10.f,58.f));
     this->winningLine.setFillColor(sf::Color(180,180,180,180));
-    this->winningLine.setPosition(sf::Vector2f(1390.f,766.f));
+    this->winningLine.setPosition(sf::Vector2f(1390.f,693.f));
 }
 
 void Game::initBlocks()
@@ -190,6 +200,121 @@ void Game::initBlocks()
             }
         }
     }
+}
+
+void Game::initSuccessPanel(float points, float hp, float hpMax, float timeTaken, std::vector<Captives*> captives)
+{
+    this->succesPanel=new SuccessWindow(points, hp, hpMax, timeTaken, captives);
+}
+void Game::initGameOverPanel()
+{
+    this->gameOverPanel=new GameOverWindow();
+}
+
+//arooba part
+void Game::initBackgroundSprite()
+{
+    this->backgroundSprite.setTexture(this->backgroundTexture);
+    this->backgroundSprite.setPosition(670,170);
+}
+void Game::initBackgroundTexture()
+{
+    if (!this->backgroundTexture.loadFromFile("Textures/menuSprite.jpeg"))
+    {
+        std::cout << "Failed to load Texture: menuSprite.png\n";
+    }
+}
+void Game::initStartText()
+{
+    if (!this->MenuFont.loadFromFile("Fonts/AtlantisInternational.ttf"))
+    {
+        std::cout << "Failed to load font: AtlantisInternational.ttf \n";
+    }
+
+    this->StartText.setFont(this->MenuFont);
+    this->StartText.setCharacterSize(50);
+    this->StartText.setFillColor(sf::Color::White);
+    this->StartText.setString("Start");
+    this->StartText.setPosition(160.f, 300.f);
+
+    //init start button
+    this->StartButton = StartText.getGlobalBounds();
+}
+
+void Game::initHighscoresText()
+{
+    if (!this->MenuFont.loadFromFile("Fonts/AtlantisInternational.ttf"))
+    {
+        std::cout << "Failed to load font: AtlantisInternational.ttf \n";
+    }
+
+    this->HighscoresText.setFont(this->MenuFont);
+    this->HighscoresText.setCharacterSize(50);
+    this->HighscoresText.setFillColor(sf::Color::White);
+    this->HighscoresText.setString("Highscores");
+    this->HighscoresText.setPosition(160.f, 400.f);
+
+    // init highscore button
+    this->HighscoresButton = HighscoresText.getGlobalBounds();
+}
+
+void Game::initCreditsText()
+{
+    if (!this->MenuFont.loadFromFile("Fonts/AtlantisInternational.ttf"))
+    {
+        std::cout << "Failed to load font: AtlantisInternational.ttf \n";
+    }
+
+    this->CreditsText.setFont(this->MenuFont);
+    this->CreditsText.setCharacterSize(50);
+    this->CreditsText.setFillColor(sf::Color::White);
+    this->CreditsText.setString("Credits");
+    this->CreditsText.setPosition(160.f, 500.f);
+
+    //init credits button
+    this->CreditsButton = CreditsText.getGlobalBounds();
+}
+
+void Game::initMenuText()
+{
+    this->initTitleText();
+    this->initStartText();
+    this->initHighscoresText();
+    this->initCreditsText();
+}
+
+void Game::initNameText()
+{
+    if (!this->MenuFont.loadFromFile("Fonts/AtlantisInternational.ttf"))
+    {
+        std::cout << "Failed to load font: AtlantisInternational.ttf \n";
+    }
+
+    this->NameText.setFont(this->MenuFont);
+    this->NameText.setCharacterSize(40);
+    this->NameText.setFillColor(sf::Color::White);
+    this->NameText.setString("ENTER YOUR NAME");
+    this->NameText.setPosition(350.f, 350.f);
+}
+void Game::initTitleText()
+{
+    if (!this->TitleFont.loadFromFile("Fonts/HouseLannister.ttf"))
+    {
+        std::cout << "Failed to load font: HouseLannister.ttf \n";
+    }
+
+    this->TitleText.setFont(this->TitleFont);
+    this->TitleText.setCharacterSize(80);
+    this->TitleText.setFillColor(sf::Color::White);
+    this->TitleText.setString("R  E  A  P  E  R");
+    this->TitleText.setPosition(120.f, 150.f);
+}
+
+sf::Vector2f Game::ButtonSize(sf::Text text)
+{
+    sf::FloatRect bounds = text.getGlobalBounds();
+    sf::Vector2f size = sf::Vector2f(bounds.left * 2 + bounds.width, bounds.top * 2 + bounds.height);
+    return size;
 }
 
 
@@ -224,6 +349,28 @@ void Game::updatePollEvents() {
         if(e.Event::type == sf::Event::Closed || (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape))
         {
             this->gameWindow->close();
+        }
+
+        // if left mouse button pressed
+        if (e.mouseButton.button == sf::Mouse::Left)
+        {
+            // storing position
+            sf::Vector2i mouse = sf::Mouse::getPosition(*gameWindow);
+
+            // checking if 'button' is clicked
+            if (StartButton.contains(mouse.x, mouse.y))
+            {
+                this->startButtonClicked=true;
+                this->initTime();
+            }
+            else if (HighscoresButton.contains(mouse.x, mouse.y))
+            {
+                std::cout << "HighscoresButton contains mouse position." << std::endl;
+            }
+            else if (CreditsButton.contains(mouse.x,mouse.y))
+            {
+                std::cout << "CreditsButton contains mouse position." << std::endl;
+            }
         }
     }
 }
@@ -638,6 +785,8 @@ void Game::updatePlayerWinningLineCollision() {
     {
         reachedFinishLine=true;
         this->mainPlayer->setTimetaken(float(clock()-this->startTime)/CLOCKS_PER_SEC);
+
+        this->initSuccessPanel(this->score, this->mainPlayer->getHp(), this->mainPlayer->getHpMax(), this->updatedTime, this->savedCaptives);
     }
 }
 
@@ -653,21 +802,38 @@ void Game::render() {
     //clearing the previous frame
     this->gameWindow->clear();
 
-    //drawing all the stuff her
-    this->renderBlocks(this->gameWindow);
-    this->renderTime(this->gameWindow);
-    this->mainPlayer->PlayerRender(*this->gameWindow);
-    this->renderHealthBar(this->gameWindow);
-    this->renderScoreText(this->gameWindow);
-    this->renderBullets(this->gameWindow);
-    this->renderSticks(this->gameWindow);
-    this->renderEnemies(this->gameWindow);
-    this->renderCaptives(this->gameWindow);
-    this->renderSavedCaptives(this->gameWindow);
-    this->renderWinningLine(this->gameWindow);
-    this->renderBFSelements(this->gameWindow);
+    //arooba part
+    if(!startButtonClicked) {
+        this->renderBackgroundSprite(this->gameWindow);
+        this->renderMenuText(this->gameWindow);
+        this->renderNameText(this->gameWindow);
+    }
 
-    //this->renderEnemyHealthBar(this->gameWindow);
+    if(startButtonClicked) {
+        //drawing all the stuff her
+        this->renderBlocks(this->gameWindow);
+        this->renderTime(this->gameWindow);
+        this->mainPlayer->PlayerRender(*this->gameWindow);
+        this->renderHealthBar(this->gameWindow);
+        this->renderScoreText(this->gameWindow);
+        this->renderBullets(this->gameWindow);
+        this->renderSticks(this->gameWindow);
+        this->renderEnemies(this->gameWindow);
+        this->renderCaptives(this->gameWindow);
+        this->renderSavedCaptives(this->gameWindow);
+        this->renderWinningLine(this->gameWindow);
+        this->renderBFSelements(this->gameWindow);
+    }
+
+    if(this->reachedFinishLine && startButtonClicked && this->mainPlayer->getHp() >0)
+    {
+        this->succesPanel->render(this->gameWindow);
+    }
+
+    if(this->mainPlayer->getHp() <=0)
+    {
+        this->gameOverPanel->render(this->gameWindow);
+    }
 
     //displaying the window
     this->gameWindow->display();
@@ -757,6 +923,22 @@ void Game::renderBFSelements(sf::RenderWindow* target)
         }
     }
 
+}
+void Game::renderMenuText(sf::RenderWindow * target)
+{
+    target->draw(this->TitleText);
+    target->draw(this->StartText);
+    target->draw(this->HighscoresText);
+    target->draw(this->CreditsText);
+}
+
+void Game::renderBackgroundSprite(sf::RenderTarget* target)
+{
+    target->draw(this->backgroundSprite);
+}
+void Game::renderNameText(sf::RenderWindow* target)
+{
+    target->draw(this->NameText);
 }
 
 //<---------------------- GETTERS AND SETTERS ---------------------->

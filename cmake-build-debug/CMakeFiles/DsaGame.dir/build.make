@@ -181,6 +181,32 @@ CMakeFiles/DsaGame.dir/Bullets.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DsaGame.dir/Bullets.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mishalzulfiqar/CLionProjects/Captive/Bullets.cpp -o CMakeFiles/DsaGame.dir/Bullets.cpp.s
 
+CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o: CMakeFiles/DsaGame.dir/flags.make
+CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o: ../SuccessWindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o -c /Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.cpp
+
+CMakeFiles/DsaGame.dir/SuccessWindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DsaGame.dir/SuccessWindow.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.cpp > CMakeFiles/DsaGame.dir/SuccessWindow.cpp.i
+
+CMakeFiles/DsaGame.dir/SuccessWindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DsaGame.dir/SuccessWindow.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mishalzulfiqar/CLionProjects/Captive/SuccessWindow.cpp -o CMakeFiles/DsaGame.dir/SuccessWindow.cpp.s
+
+CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o: CMakeFiles/DsaGame.dir/flags.make
+CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o: ../GameOverWindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o -c /Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.cpp
+
+CMakeFiles/DsaGame.dir/GameOverWindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DsaGame.dir/GameOverWindow.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.cpp > CMakeFiles/DsaGame.dir/GameOverWindow.cpp.i
+
+CMakeFiles/DsaGame.dir/GameOverWindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DsaGame.dir/GameOverWindow.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mishalzulfiqar/CLionProjects/Captive/GameOverWindow.cpp -o CMakeFiles/DsaGame.dir/GameOverWindow.cpp.s
+
 # Object files for target DsaGame
 DsaGame_OBJECTS = \
 "CMakeFiles/DsaGame.dir/main.cpp.o" \
@@ -190,7 +216,9 @@ DsaGame_OBJECTS = \
 "CMakeFiles/DsaGame.dir/Enemy.cpp.o" \
 "CMakeFiles/DsaGame.dir/Captives.cpp.o" \
 "CMakeFiles/DsaGame.dir/Sticks.cpp.o" \
-"CMakeFiles/DsaGame.dir/Bullets.cpp.o"
+"CMakeFiles/DsaGame.dir/Bullets.cpp.o" \
+"CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o" \
+"CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o"
 
 # External object files for target DsaGame
 DsaGame_EXTERNAL_OBJECTS =
@@ -203,6 +231,8 @@ DsaGame: CMakeFiles/DsaGame.dir/Enemy.cpp.o
 DsaGame: CMakeFiles/DsaGame.dir/Captives.cpp.o
 DsaGame: CMakeFiles/DsaGame.dir/Sticks.cpp.o
 DsaGame: CMakeFiles/DsaGame.dir/Bullets.cpp.o
+DsaGame: CMakeFiles/DsaGame.dir/SuccessWindow.cpp.o
+DsaGame: CMakeFiles/DsaGame.dir/GameOverWindow.cpp.o
 DsaGame: CMakeFiles/DsaGame.dir/build.make
 DsaGame: /usr/local/lib/libsfml-graphics.2.5.1.dylib
 DsaGame: /usr/local/lib/libsfml-audio.2.5.1.dylib
@@ -210,7 +240,7 @@ DsaGame: /usr/local/lib/libsfml-network.2.5.1.dylib
 DsaGame: /usr/local/lib/libsfml-window.2.5.1.dylib
 DsaGame: /usr/local/lib/libsfml-system.2.5.1.dylib
 DsaGame: CMakeFiles/DsaGame.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable DsaGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/mishalzulfiqar/CLionProjects/Captive/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable DsaGame"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DsaGame.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
